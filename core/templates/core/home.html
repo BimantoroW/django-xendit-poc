@@ -36,7 +36,7 @@
         </div>
     </div>
     {% empty %}
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-info" role="alert">
         You haven't enrolled in any courses yet. Browse our available courses below to get started!
     </div>
     {% endfor %}
@@ -60,7 +60,11 @@
                     <h5 class="card-title">{{ course.title }}</h5>
                     <p class="card-text">{{ course.description }}</p>
                     <p class="card-text fw-bold fs-5">Rp{{ course.price|intcomma }}</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    <form hx-post="{% url 'cart:add' %}" hx-target="this" hx-swap="outerHTML" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="course_id" value="{{ course.id }}">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                 </div>
             </div>
         </div>
