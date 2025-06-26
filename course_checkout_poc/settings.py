@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +29,7 @@ SECRET_KEY = "django-insecure-5+js$7-tqciw6yd$u3!25q@@*q7m^m-n1b(^87-q+0)!nh1djh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -110,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "id-ID"
+LANGUAGE_CODE = "en-US"
 
 TIME_ZONE = "Asia/Jakarta"
 
@@ -132,3 +136,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_REDIRECT_URL = 'core:home'
+
+XENDIT_API_GATEWAY_URL = os.environ['XENDIT_API_GATEWAY_URL']
+XENDIT_API_KEY=os.environ['XENDIT_API_KEY']
+XENDIT_WEBHOOK_VERIFICATION_TOKEN=os.environ['XENDIT_WEBHOOK_VERIFICATION_TOKEN']

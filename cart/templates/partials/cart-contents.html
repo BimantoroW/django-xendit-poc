@@ -38,7 +38,10 @@
                     </li>
                 </ul>
                 <div class="d-grid mt-3">
-                    <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+                    <form action="{% url 'orders:checkout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100">Proceed to Checkout</button>
+                    </form>
                 </div>
             </div>
         </div>

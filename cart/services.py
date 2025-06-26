@@ -21,6 +21,13 @@ def get_cart_count_by_user(user):
         count = 0
     return count
 
+def clear_cart_by_user(user):
+    try:
+        cart = user.cart
+        cart.delete()
+    except ObjectDoesNotExist:
+        pass
+
 def add_item(user, course_id):
     '''
     Raise Http404 exception if course_id does not exist

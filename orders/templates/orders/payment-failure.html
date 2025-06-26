@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Failed{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h2 class="text-danger">Payment Unsuccessful</h2>
+    <p class="lead mt-3">There was an issue with your payment</p>
+    <p class="text-muted">Your order has been saved with a 'Pending' status. Please try again or contact support.</p>
+    <div class="mt-4">
+        <a href="{% url 'cart:view' %}" class="btn btn-secondary">Back to Cart</a>
+        <a href="{% url 'core:home' %}" class="btn btn-primary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}
