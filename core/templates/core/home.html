@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Welcome to CourseShop{% endblock %}
+
+{% block content %}
+<div class="p-4 mb-4 bg-light rounded-5">
+    <div class="container-fluid py-3">
+        <h1 class="display-6 fw-bold text-primary">Learn Something New Today!</h1>
+        {% if user.is_authenticated %}
+        <p class="col-md-8 fs-4">Welcome back, {{ user.username }}!</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+<h2>My Courses</h2>
+<hr>
+<div>
+    {% for course in enrolled_courses %}
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-3">
+                <div class="d-flex align-items-center justify-content-center bg-success text-white h-100"
+                    style="min-height: 150px;">
+                    Enrolled
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.title }}</h5>
+                    <p class="card-text">{{ course.description }}</p>
+                    <a href="#" class="btn btn-success">View Course</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-warning" role="alert">
+        You haven't enrolled in any courses yet. Browse our available courses below to get started!
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<h2 class="mt-5">Available Courses</h2>
+<hr>
+<div>
+    {% for course in available_courses %}
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-3">
+                <div class="d-flex align-items-center justify-content-center bg-secondary text-white h-100"
+                    style="min-height: 150px;">
+                    Image
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.title }}</h5>
+                    <p class="card-text">{{ course.description }}</p>
+                    <p class="card-text fw-bold fs-5">Rp{{ course.price|intcomma }}</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>There are no new courses available for you to purchase right now.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
