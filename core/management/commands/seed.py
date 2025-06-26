@@ -8,18 +8,21 @@ class Command(BaseCommand):
         courses = [
             {
                 'title': 'File Stream Oriented Programming',
-                'description': 'dont you just love fsop',
-                'price': 100_000
+                'description': 'This module explores what a FILE struct is, how it works, and how this functionality can be exploited to gain read, write, or gain control flow.',
+                'price': 100_000,
+                'image_path': 'images/courses/gnu.png',
             },
             {
                 'title': 'V8 Engine Exploitation',
-                'description': 'get ez bug bounty money',
-                'price': 200_000
+                'description': 'Chrome V8 exploitation training for beginners',
+                'price': 200_000,
+                'image_path': 'images/courses/v8.png',
             },
             {
                 'title': 'Rust Programming',
-                'description': 'taught by stefanus',
-                'price': 150_000
+                'description': 'Understand ownership, lifetimes, traits, generics, and much more',
+                'price': 150_000,
+                'image_path': 'images/courses/rust.png',
             }
         ]
 

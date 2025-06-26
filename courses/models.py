@@ -5,6 +5,7 @@ class Course(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
     price = models.IntegerField()
+    image_path = models.CharField(max_length=256, null=True, blank=True)
 
 class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
