@@ -21,7 +21,12 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cart:view' %}">Cart</a>
+                        <a class="nav-link" href="{% url 'cart:view' %}">
+                            Cart
+                            {% if cart_item_count > 0 %}
+                            <span class="badge rounded-pill bg-primary ms-1">{{ cart_item_count }}</span>
+                            {% endif %}
+                        </a>
                     </li>
                     <li class="nav-item">
                         <form action="{% url 'users:logout' %}" method="post" class="d-inline">

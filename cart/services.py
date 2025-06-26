@@ -13,6 +13,14 @@ def get_cart_by_user(user):
         total_price = 0
     return cart_items, total_price
 
+def get_cart_count_by_user(user):
+    try:
+        cart = user.cart
+        count = cart.cartitem_set.count()
+    except ObjectDoesNotExist:
+        count = 0
+    return count
+
 def add_item(user, course_id):
     '''
     Raise Http404 exception if course_id does not exist
