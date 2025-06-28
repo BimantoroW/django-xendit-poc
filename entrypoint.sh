@@ -1,6 +1,6 @@
 #!/bin/sh
 
-python3 manage.py flush --no-input \
-    && python3 manage.py migrate \
+python3 manage.py migrate \
     && python3 manage.py seed \
-    && python3 manage.py runserver 0.0.0.0:8000
+
+gunicorn course_checkout_poc.wsgi:application --bind 0.0.0.0:8000
