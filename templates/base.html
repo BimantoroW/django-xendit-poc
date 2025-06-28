@@ -7,6 +7,7 @@
     <title>{% block title %}Xendit POC{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -21,25 +22,29 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cart:view' %}">
-                            Cart
-                            {% if cart_item_count > 0 %}
-                            <span class="badge rounded-pill bg-primary ms-1">{{ cart_item_count }}</span>
-                            {% endif %}
-                        </a>
+                        <span id="navbar-cart-link">
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'cart:view' %}">
+                                <i class="bi bi-cart-fill me-1"></i>
+                                {% if cart_item_count > 0 %}
+                                <span class="badge rounded-pill bg-danger">{{ cart_item_count }}</span>
+                                {% else %}
+                                <span class="badge rounded-pill bg-danger">0</span>
+                                {% endif %}
+                            </a>
+                        </span>
                     </li>
                     <li class="nav-item">
                         <form action="{% url 'users:logout' %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-link nav-link">Logout</button>
+                            <button type="submit" class="btn btn-primary btn-sm ms-3">Logout</button>
                         </form>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'users:login' %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+                        <a class="btn btn-outline-primary btn-sm ms-3" href="{% url 'users:register' %}">Register</a>
                     </li>
                     {% endif %}
                 </ul>
