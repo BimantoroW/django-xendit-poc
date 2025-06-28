@@ -10,13 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-PRODUCTION = os.getenv('PRODUCTION').lower()
+load_dotenv()
 
-load_dotenv('.env.prod' if PRODUCTION else '.env.dev')
+PRODUCTION = os.getenv('PRODUCTION', 'False').lower() in ('true', '1', 't')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = os.environ['DJANGO_ALLOWED_HOSTS'].split(' ')
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(' ')
+CSRF_TRUSTED_ORIGINS = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(' ')
 
 
 # Application definition
@@ -142,10 +144,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

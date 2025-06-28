@@ -17,6 +17,8 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+RUN mkdir static
+
 # Create unprivileged user
 RUN addgroup --system app && adduser --system --group app
 
