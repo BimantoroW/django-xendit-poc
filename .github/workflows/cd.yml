@@ -42,7 +42,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          cat << EOF > .env
+          cat << EOF > .env.prod
             PRODUCTION=${{ secrets.PRODUCTION }}
             PORT=${{ secrets.PORT }}
             DATABASE=${{ secrets.DATABASE }}
