@@ -8,6 +8,22 @@ from courses.models import Course
 from .models import Cart, CartItem
 from . import services
 
+@require_POST
+def add_cart_item(request):
+    # For htmx purposes. Redirect the user to the login page if they're not authenticated
+    if not request.user.is_authenticated:
+        login_url = reverse('users:login')
+        response = HttpResponse(status=204)
+        response['HX-Redirect'] = login_url
+        return response
+
+    course_id = request.POST.get('course_id')
+    item_created = services.add_item(request.user, course_id)
+    if item_created:
+        return render(request, 'partials/cart-add-success.html')
+    else:
+        return render(request, 'partials/already-in-cart.html')
+
 @login_required
 def view_cart(request):
     cart_items, total_price = services.get_cart_by_user(request.user)
