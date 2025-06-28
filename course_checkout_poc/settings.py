@@ -14,9 +14,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-ENV = os.getenv('ENV').lower()
+PRODUCTION = os.getenv('PRODUCTION').lower()
 
-load_dotenv(f'.env.{ENV}')
+load_dotenv('.env.prod' if PRODUCTION else '.env.dev')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENV == 'dev'
+DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = os.environ['DJANGO_ALLOWED_HOSTS'].split(' ')
 
 
 # Application definition
@@ -86,12 +86,24 @@ WSGI_APPLICATION = "course_checkout_poc.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if PRODUCTION:
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ.get("DJANGO_SQL_ENGINE", "django.db.backends.sqlite3"),
+            "NAME": os.environ.get("DJANGO_SQL_DATABASE", BASE_DIR / "db.sqlite3"),
+            "USER": os.environ.get("DJANGO_SQL_USER", "user"),
+            "PASSWORD": os.environ.get("DJANGO_SQL_PASSWORD", "password"),
+            "HOST": os.environ.get("DJANGO_SQL_HOST", "localhost"),
+            "PORT": os.environ.get("DJANGO_SQL_PORT", "5432"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
