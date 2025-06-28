@@ -6,7 +6,7 @@ Django application to demonstrate a complete e-commerce checkout flow with the X
 
 ## Deployed Application
 
-**Live URL:** `http://34.81.22.12`
+**Live URL:** [http://34.81.22.12](http://34.81.22.12)
 
 ## Core Features & Assignment Requirements
 
@@ -18,7 +18,7 @@ This project has implemented all requirements outlined in the assignment descrip
 
 * **Authentication**: User registration and login was implemented to support a shopping cart system and user-specific enrollments. While noted as optional, this was included to build a more robust and realistic application.
 
-* **Deployment**: The application is fully containerized with Docker and includes configurations for Nginx and Gunicorn.
+* **Deployment**: The application is fully containerized with Docker and includes configurations for Nginx.
 
 ## The Order and Payment Flow
 
