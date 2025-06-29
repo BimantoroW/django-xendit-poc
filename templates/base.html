@@ -23,12 +23,12 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <span id="navbar-cart-link">
-                            <a class="btn btn-outline-primary btn-sm" href="{% url 'cart:view' %}">
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'cart:page' %}">
                                 <i class="bi bi-cart-fill me-1"></i>
                                 {% if cart_item_count > 0 %}
                                 <span class="badge rounded-pill bg-danger">{{ cart_item_count }}</span>
                                 {% else %}
-                                <span class="badge rounded-pill bg-danger">0</span>
+                                <span class="badge rounded-pill bg-secondary">0</span>
                                 {% endif %}
                             </a>
                         </span>

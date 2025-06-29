@@ -72,11 +72,13 @@
                     <h5 class="card-title">{{ course.title }}</h5>
                     <p class="card-text">{{ course.description }}</p>
                     <p class="card-text fw-bold fs-5">Rp{{ course.price|intcomma }}</p>
-                    <form hx-post="{% url 'cart:add' %}" hx-target="this" hx-swap="outerHTML" class="d-inline">
-                        {% csrf_token %}
-                        <input type="hidden" name="course_id" value="{{ course.id }}">
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </form>
+                    <div class="add-to-cart-container-{{ course.id }}">
+                        <form action="{% url 'cart:api_add' %}" method="post" class="add-to-cart-form d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,4 +88,62 @@
     {% endfor %}
 </div>
 
+{% endblock %}
+
+{% block scripts %}Add commentMore actions
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const allForms = document.querySelectorAll('.add-to-cart-form');
+
+        allForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                const url = form.getAttribute('action');
+                const csrfToken = formData.get('csrfmiddlewaretoken');
+                const container = form.parentElement;
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                    .then(response => {
+                        if (response.url.includes('/login')) {
+                            window.location.href = "{% url 'users:login' %}?next={% url 'core:home' %}";
+                            return null;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data) return; // Stop if we redirected
+
+                        if (data.status === 'success') {
+                            container.innerHTML = `<button type="button" class="btn btn-success" disabled>Added to Cart</button>`;
+
+                            // Update the navbar cart count
+                            const newCount = data.cart_item_count;
+                            const cartLinkContainer = document.getElementById('navbar-cart-link');
+                            if (cartLinkContainer) {
+                                cartLinkContainer.innerHTML = `
+                                <a class="btn btn-outline-primary btn-sm" href="/cart/">
+                                    <i class="bi bi-cart-fill me-1"></i>
+                                    <span class="badge rounded-pill bg-danger">${newCount}</span>
+                                </a>`;
+                            }
+                        } else {
+                            alert(data.message || 'An unknown error occurred.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred.');
+                    });
+            });
+        });
+    });
+</script>
 {% endblock %}
