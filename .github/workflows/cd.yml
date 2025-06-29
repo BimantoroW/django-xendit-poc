@@ -84,5 +84,5 @@ jobs:
           export DOCKER_HOST=ssh://${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_SERVER }}
           docker info
           docker-compose down
-          docker system prune -af
+          # docker system prune -af
           docker-compose up -d --build
