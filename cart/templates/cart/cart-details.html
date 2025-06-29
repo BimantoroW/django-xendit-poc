@@ -71,7 +71,7 @@
 
             const summaryItemsHtml = data.items.map(item => `
                 <li class="list-group-item d-flex justify-content-between" data-summary-item-id="${item.id}">
-                    <span>${item.product.substring(0, 20)}</span>
+                    <span>${item.product}</span>
                     <span>${item.price_formatted}</span>
                 </li>
             `).join('');
